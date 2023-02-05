@@ -6,11 +6,11 @@ una vez el programe escanee esos archivos, los juntara temporalmente en un solo 
 
 1: Borrar todas las lineas que comiencen con un #.
 2: Borrar todas las lineas que sean rutas de archivos, como /.php, /var/archivo.zip (etc).
+6: Borrar todos las lineas en blanco
+7: Borrar entradas duplicadas.
 3: si hay lineas con dominios www, mantenerlas, ejemplo www.google.com.
 4: Si hay lineas con http o https:// al principio, borrarlas y dejar solo el dominio o la ip, ejemplo http://google.com --->google.com o https://192.168.5.5 ---> 192.168.5.5.
 5: En base a todas las directrices anteriores, si el dominio o la ip contiene un puerto, quitarlo, ejemplo: google.com:8080 ---> google.com o 192.168.5.5:9006 ---> 192.168.5.6.
-6: Borrar todos los espacios entre líneas.
-7: Borrar entradas duplicadas.
 
 Una vez internamente esto este hecho, añadir la secuencia ip firewall address-list add list=blacklist address= a cada una de las entradas, y al finalizar de estas, un punto y coma, ejemplo: 
 

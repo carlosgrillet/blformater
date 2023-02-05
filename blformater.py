@@ -33,10 +33,10 @@ def readFiles():
     listas = ""
     for i in range(NUMBER_OF_FILES):
         listas += readDomains(f"{i+1}.txt")
-    return listas
+    return listas.split('\n')
     
 def main():
-    listfile = readFiles().split('\n')     
+    listfile = readFiles()
 
     for line in listfile:
         has_www = SEARCH_PATTERN["HAS_WWW"].match(line)
