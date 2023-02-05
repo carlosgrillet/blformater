@@ -3,6 +3,7 @@ import re
 import os
 
 NUMBER_OF_FILES = 5
+FILE_NAME = "blacklist.rsc"
 PRE_STRING = "/ip firewall address-list add list=blacklist address="
 POST_STRING = ";"
 
@@ -21,9 +22,9 @@ def readDomains(file_name):
     lista = ""
     with open(file_name , "r") as file_open:
         for linea in file_open.readlines():
-            if DELETE_PATTERN["BLANK_LINE"].match(linea):
+            if linea == '\n':
                 pass
-            if DELETE_PATTERN["BEGIN_SLASH_NUMERAL"].match(linea):
+            elif DELETE_PATTERN["BEGIN_SLASH_NUMERAL"].match(linea):
                 pass
             else:
                 lista += linea
@@ -37,19 +38,25 @@ def readFiles():
     
 def main():
     listfile = readFiles()
+    blacklist = ""
 
     for line in listfile:
         has_www = SEARCH_PATTERN["HAS_WWW"].match(line)
         has_http = SEARCH_PATTERN["HAS_HTTP"].match(line)
         has_ip = SEARCH_PATTERN["HAS_IP_AND_PORT"].match(line)
         if has_ip:
-            print(f"{PRE_STRING}{has_ip[1]}{POST_STRING}")
+            blacklist = blacklist + f"{PRE_STRING}{has_ip[1]}{POST_STRING}\n"
         elif has_www:
-            print(f"{PRE_STRING}{has_www[0]}{POST_STRING}")
+            blacklist = blacklist + f"{PRE_STRING}{has_www[0]}{POST_STRING}\n"
         elif has_http:
-            print(f"{PRE_STRING}{has_http[1]}{POST_STRING}")
+            blacklist = blacklist + f"{PRE_STRING}{has_http[1]}{POST_STRING}\n"
+        elif line == '':
+            pass
         else:
-            print(f"{PRE_STRING}{line}{POST_STRING}")
+            blacklist = blacklist + f"{PRE_STRING}{line}{POST_STRING}\n"
     
+    with open(FILE_NAME, "w") as file:
+        file.writelines(blacklist[:-1])
+        
 if __name__ == '__main__':
     main()
