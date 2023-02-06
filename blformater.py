@@ -1,6 +1,4 @@
-import logging
 import re
-import os
 
 NUMBER_OF_FILES = 5
 FILE_NAME = "blacklist.rsc"
