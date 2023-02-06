@@ -25,14 +25,7 @@
 /ip firewall address-list add list=blacklist address=genpral.top;
 /ip firewall address-list add list=blacklist address=pafindo.me;
 /ip firewall address-list add list=blacklist address=safemann.tk;
-/ip firewall address-list add list=blacklist address=www.pornouwu.com;
 /ip firewall address-list add list=blacklist address=siyaghasourccing.com;
 /ip firewall address-list add list=blacklist address=www.greenfleld.com;
 /ip firewall address-list add list=blacklist address=www.slompbit.xyz;
 /ip firewall address-list add list=blacklist address=www.slompbit.xyz;
-/ip firewall address-list add list=blacklist address=www.180.10.20.1;
-/ip firewall address-list add list=blacklist address=www.200.9.140.2;
-/ip firewall address-list add list=blacklist address=201.20.33.200;
-/ip firewall address-list add list=blacklist address=comercio.internacional.com.ar;
-/ip firewall address-list add list=blacklist address=casas.com;
-/ip firewall address-list add list=blacklist address=gobierno.com;

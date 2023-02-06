@@ -1,3 +1,0 @@
-http://comercio.internacional.com.ar/inicio.php
-http://casas.com
-http://gobierno.com:8080

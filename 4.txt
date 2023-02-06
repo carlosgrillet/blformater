@@ -1,3 +1,0 @@
-www.180.10.20.1:4040
-www.200.9.140.2:4040/carlos/index.php
-201.20.33.200:4040/local/inicio.html
