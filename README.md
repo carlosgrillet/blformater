@@ -116,3 +116,5 @@ PRE_STRING = "/ip firewall address-list add list=blacklist address="
 POST_STRING = ";"
 ```
 
+### Licencia
+Desarrollado para Alejandro Cornieles
