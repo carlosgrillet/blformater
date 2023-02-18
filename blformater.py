@@ -30,7 +30,7 @@ SEARCH_PATTERN = {
 #Patrones de busqueda para eliminar lineas
 DELETE_PATTERN = { 
     "BLANK_LINE": re.compile("^$"),
-    "BEGIN_SLASH_NUMERAL": re.compile("^/|^#"),
+    "BEGIN_SLASH_NUMERAL_SEMICOLON": re.compile("^/|^#|^;"),
 }
 
 #Funcion para leer un archivo y filtar las lineas que no se necesitan
@@ -46,7 +46,7 @@ def readDomains(file_name):
             if linea == '\n':
                 logger.debug(f"Omitida linea {line_number} Rason: Linea vacia")
                 pass
-            elif DELETE_PATTERN["BEGIN_SLASH_NUMERAL"].match(linea):
+            elif DELETE_PATTERN["BEGIN_SLASH_NUMERAL_SEMICOLON"].match(linea):
                 logger.debug(f"Omitida linea {line_number} Rason: / o # en ella")
                 pass
             else:
