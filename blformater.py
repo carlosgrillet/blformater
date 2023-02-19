@@ -1,6 +1,7 @@
 import re
 import logging
 
+VERSION = '0.3' # control de version
 
 #--------Lista de variables--------
 #--------Nombre del archivo que se va a genera. Puedes usar formato .txt
@@ -72,26 +73,35 @@ def main():
     logging.info("Iniciando el scritp")
     listfile = readFiles()
     blacklist = ""
+    cache = []
+
     for line in listfile:
         #Filtrado de los dominios para que esten bien escritos
         has_www = SEARCH_PATTERN["HAS_WWW"].match(line)
         has_http = SEARCH_PATTERN["HAS_HTTP"].match(line)
         has_ip = SEARCH_PATTERN["HAS_IP_AND_PORT"].match(line)
         domain_only = SEARCH_PATTERN["DOMAIN_ONLY"].match(line)
+        new_line = ""
+
         if has_ip:
-            blacklist = blacklist + f"{PRE_STRING}{has_ip[1]}{POST_STRING}\n"
+            new_line =  f"{PRE_STRING}{has_ip[1]}{POST_STRING}\n"
             logger.debug(f"Cambio {line} > {has_ip[1]}")
         elif has_www:
-            blacklist = blacklist + f"{PRE_STRING}{has_www[0]}{POST_STRING}\n"
+            new_line =  f"{PRE_STRING}{has_www[0]}{POST_STRING}\n"
             logger.debug(f"Cambio {line} > {has_www[0]}")
         elif has_http:
-            blacklist = blacklist + f"{PRE_STRING}{has_http[1]}{POST_STRING}\n"
+            new_line =  f"{PRE_STRING}{has_http[1]}{POST_STRING}\n"
             logger.debug(f"Cambio {line} > {has_http[1]}")
         elif line == '':
             pass
         else:
-            blacklist = blacklist + f"{PRE_STRING}{domain_only[0]}{POST_STRING}\n"
-            logger.debug(f"Dominio agregado: {line}")
+            new_line =  f"{PRE_STRING}{domain_only[0]}{POST_STRING}\n"
+
+        # verifica que la linea no este repetida
+        if new_line not in cache:
+            blacklist += new_line
+            logger.debug(f"Dominio agregado: {new_line}")
+            cache.append(new_line)
     
     with open(FILE_NAME, "w") as file:
         logger.info(f"Escribiendo en archivo {FILE_NAME}")
