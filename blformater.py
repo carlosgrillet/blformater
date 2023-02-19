@@ -22,9 +22,10 @@ logger = logging.getLogger()
 
 #Patrones de busqueda para correccion de dominios
 SEARCH_PATTERN = { 
-    "HAS_HTTP": re.compile(r"(?:^http:\/\/)([a-z.]*)"),
+    "HAS_HTTP": re.compile(r"(?:^http:\/\/)([a-z0-9.]*)"),
     "HAS_WWW": re.compile(r"((?:w{3}\.)([a-z.]*))"),
     "HAS_IP_AND_PORT": re.compile(r"((?:w{3}\.)?(\d{0,3}\.\d{0,3}\.\d{0,3}\.\d{0,3}))"),
+    "DOMAIN_ONLY": re.compile(r"[a-z0-9.-]*"),
 }
 
 #Patrones de busqueda para eliminar lineas
@@ -76,6 +77,7 @@ def main():
         has_www = SEARCH_PATTERN["HAS_WWW"].match(line)
         has_http = SEARCH_PATTERN["HAS_HTTP"].match(line)
         has_ip = SEARCH_PATTERN["HAS_IP_AND_PORT"].match(line)
+        domain_only = SEARCH_PATTERN["DOMAIN_ONLY"].match(line)
         if has_ip:
             blacklist = blacklist + f"{PRE_STRING}{has_ip[1]}{POST_STRING}\n"
             logger.debug(f"Cambio {line} > {has_ip[1]}")
@@ -88,7 +90,7 @@ def main():
         elif line == '':
             pass
         else:
-            blacklist = blacklist + f"{PRE_STRING}{line}{POST_STRING}\n"
+            blacklist = blacklist + f"{PRE_STRING}{domain_only[0]}{POST_STRING}\n"
             logger.debug(f"Dominio agregado: {line}")
     
     with open(FILE_NAME, "w") as file:
