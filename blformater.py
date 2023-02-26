@@ -84,18 +84,18 @@ def main():
         new_line = ""
 
         if has_ip:
-            new_line =  f"{PRE_STRING}{has_ip[1]}{POST_STRING}\n"
+            new_line = f"{PRE_STRING}{has_ip[1]}{POST_STRING}\n"
             logger.debug(f"Cambio {line} > {has_ip[1]}")
         elif has_www:
-            new_line =  f"{PRE_STRING}{has_www[0]}{POST_STRING}\n"
+            new_line = f"{PRE_STRING}{has_www[0]}{POST_STRING}\n"
             logger.debug(f"Cambio {line} > {has_www[0]}")
         elif has_http:
-            new_line =  f"{PRE_STRING}{has_http[1]}{POST_STRING}\n"
+            new_line = f"{PRE_STRING}{has_http[1]}{POST_STRING}\n"
             logger.debug(f"Cambio {line} > {has_http[1]}")
         elif line == '':
             pass
         else:
-            new_line =  f"{PRE_STRING}{domain_only[0]}{POST_STRING}\n"
+            new_line = f"{PRE_STRING}{domain_only[0]}{POST_STRING}\n"
 
         # verifica que la linea no este repetida
         if new_line not in cache:
