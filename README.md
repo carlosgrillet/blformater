@@ -1,14 +1,15 @@
-[![Code linting](https://github.com/carlosgrillet/blformater/actions/workflows/linter.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 # blformater
+
+[![GitHub Super-Linter](https://github.com/carlosgrillet/blformater/actions/workflows/linter.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 blformater es una herramienta para convertir listas de dominios, en listas de acceso para un router mikrotik, entre sus caracteristicas principales tenemos que nos permite:
  
- - `Omitir lineas vacias`
- - `Omitir lineas que sean comentarios`
- - `Omitir lienas que sean solo rutas /home/web/index.html`
- - `Filtrado de http://domain.com > domain.com`
- - `filtrado de paginas www con ruta www.dominio.com/home/index.html > dominio.com`
- - `filtrado de direcciones IP con puertos 200.201.202.203:8080 > 200.201.202.203`
+- `Omitir lineas vacias`
+- `Omitir lineas que sean comentarios`
+- `Omitir lienas que sean solo rutas /home/web/index.html`
+- `Filtrado de http://domain.com > domain.com`
+- `filtrado de paginas www con ruta www.dominio.com/home/index.html > dominio.com`
+- `filtrado de direcciones IP con puertos 200.201.202.203:8080 > 200.201.202.203`
 
 > blformater toma como entrada de 1 a 5 archivos de texto de nombre `n.txt` ubicados en el mismo directorio donde esta el script
 >
@@ -90,7 +91,7 @@ blformater es una herramienta para convertir listas de dominios, en listas de ac
 Usando [python](https://www.python.org/ftp/python/3.10.9/python-3.10.9-amd64.exe):
 
 ```bash
-python blformater.py
+  python blformater.py
 ```
 
 ## Configuracion
@@ -104,17 +105,17 @@ El codigo tiene variables definidas que podemos ajustar a nuestra necesidad como
 - `Texto a colocar despues del dominio final`
 
 ```python
-#--------Lista de variables--------
-#--------Nombre del archivo que se va a genera. Puedes usar formato .txt
-FILE_NAME = "blacklist.rsc"
-#--------Nombre del archivo de logs
-LOG_FILE_NAME = "lists.log"
-#--------Cuantos archivos de listas hay en el directorio actual.
-NUMBER_OF_FILES = 5
-#--------Cadena que se agregara antes del dominio.
-PRE_STRING = "/ip firewall address-list add list=blacklist address="
-#--------Cadena agregada despues del dominio
-POST_STRING = ";"
+  #--------Lista de variables--------
+  #--------Nombre del archivo que se va a genera. Puedes usar formato .txt
+  FILE_NAME = "blacklist.rsc"
+  #--------Nombre del archivo de logs
+  LOG_FILE_NAME = "lists.log"
+  #--------Cuantos archivos de listas hay en el directorio actual.
+  NUMBER_OF_FILES = 5
+  #--------Cadena que se agregara antes del dominio.
+  PRE_STRING = "/ip firewall address-list add list=blacklist address="
+  #--------Cadena agregada despues del dominio
+  POST_STRING = ";"
 ```
 
 ### Licencia
