@@ -1,27 +1,25 @@
 import re
 import logging
 
-VERSION = '0.3' # control de version
+VERSION = '0.4'  # control de version
 
-#--------Lista de variables--------
-#--------Nombre del archivo que se va a genera. Puedes usar formato .txt
+# --------Lista de variables--------
+# --------Nombre del archivo que se va a genera. Puedes usar formato .txt
 FILE_NAME = "blacklist.rsc"
-#--------Nombre del archivo de logs
+# --------Nombre del archivo de logs
 LOG_FILE_NAME = "lists.log"
-#--------Cuantos archivos de listas hay en el directorio actual.
+# --------Cuantos archivos de listas hay en el directorio actual.
 NUMBER_OF_FILES = 5
-#--------Cadena que se agregara antes del dominio.
+# --------Cadena que se agregara antes del dominio.
 PRE_STRING = "/ip firewall address-list add list=blacklist address="
-#--------Cadena agregada despues del dominio
+# --------Cadena agregada despues del dominio
 POST_STRING = ";"
 
 LOG_FORMAT = "%(levelname)s %(asctime)s - %(message)s"
-logging.basicConfig(filename=LOG_FILE_NAME,\
-                    level=logging.DEBUG,\
-                    format=LOG_FORMAT)
+logging.basicConfig(filename=LOG_FILE_NAME, level=logging.DEBUG, format=LOG_FORMAT)
 logger = logging.getLogger()
 
-#Patrones de busqueda para correccion de dominios
+# Patrones de busqueda para correccion de dominios
 SEARCH_PATTERN = { 
     "HAS_HTTP": re.compile(r"(?:^http:\/\/)([a-z0-9.]*)"),
     "HAS_WWW": re.compile(r"((?:w{3}\.)([a-z.]*))"),
@@ -29,13 +27,13 @@ SEARCH_PATTERN = {
     "DOMAIN_ONLY": re.compile(r"[a-z0-9.-]*"),
 }
 
-#Patrones de busqueda para eliminar lineas
+# Patrones de busqueda para eliminar lineas
 DELETE_PATTERN = { 
     "BLANK_LINE": re.compile("^$"),
     "BEGIN_ALPHABETICAL": re.compile("^[a-zA-Z]"),
 }
 
-#Funcion para leer un archivo y filtar las lineas que no se necesitan
+# Funcion para leer un archivo y filtar las lineas que no se necesitan
 def readDomains(file_name):
     lista = ""
     line_number = 0
@@ -61,14 +59,14 @@ def readDomains(file_name):
         return lista
 
 
-#Funcion para que se inicie la lectura de todos los archivos con listas negras
+# Funcion para que se inicie la lectura de todos los archivos con listas negras
 def readFiles():
     listas = ""
     for i in range(NUMBER_OF_FILES):
         listas += readDomains(f"{i+1}.txt")
     return listas.split('\n')
     
-#Funcion principal (el programa)
+# Funcion principal (el programa)
 def main():
     logging.info("Iniciando el scritp")
     listfile = readFiles()
