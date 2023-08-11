@@ -19,5 +19,5 @@
           uses: super-linter/super-linter@v5
           env:
             DEFAULT_BRANCH: main
-            VALIDATE_ALL_CODEBASE: false
+            VALIDATE_PYTHON_PYLINT: true
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
