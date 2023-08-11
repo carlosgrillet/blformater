@@ -19,4 +19,7 @@
           uses: super-linter/super-linter@v5
           env:
             DEFAULT_BRANCH: main
+            VALIDATE_ALL_CODEBASE: true
+            FILTER_REGEX_INCLUDE: *.py
+            VALIDATE_PYTHON_PYLINT: true
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
