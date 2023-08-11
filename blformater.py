@@ -1,7 +1,10 @@
+'''
+Codigo para formatear listas negras de dominios para Mikrotik
+'''
 import re
 import logging
 
-VERSION = '0.4'  # control de version
+VERSION = "0.4"  # control de version
 
 # --------Lista de variables--------
 # --------Nombre del archivo que se va a genera. Puedes usar formato .txt
@@ -20,7 +23,7 @@ logging.basicConfig(filename=LOG_FILE_NAME, level=logging.DEBUG, format=LOG_FORM
 logger = logging.getLogger()
 
 # Patrones de busqueda para correccion de dominios
-SEARCH_PATTERN = { 
+SEARCH_PATTERN = {
     "HAS_HTTP": re.compile(r"(?:^http:\/\/)([a-z0-9.]*)"),
     "HAS_WWW": re.compile(r"((?:w{3}\.)([a-z.]*))"),
     "HAS_IP_AND_PORT": re.compile(r"((?:w{3}\.)?(\d{0,3}\.\d{0,3}\.\d{0,3}\.\d{0,3}))"),
@@ -28,48 +31,56 @@ SEARCH_PATTERN = {
 }
 
 # Patrones de busqueda para eliminar lineas
-DELETE_PATTERN = { 
+DELETE_PATTERN = {
     "BLANK_LINE": re.compile("^$"),
     "BEGIN_ALPHABETICAL": re.compile("^[a-zA-Z]"),
 }
 
 # Funcion para leer un archivo y filtar las lineas que no se necesitan
-def readDomains(file_name):
+def read_domains(file_name):
+    '''
+    Funcion para leer un archivo y filtar las lineas que no se necesitan
+    '''
     lista = ""
     line_number = 0
     try:
-        logger.info(f"Abriendo archivo {file_name}")
-        file_open =  open(file_name, "r")
-        logger.info(f"Leyendo archivo {file_name}")
-        for linea in file_open.readlines():
-            line_number += 1
-            if linea == '\n':
-                logger.debug(f"Omitida linea {line_number} Rason: Linea vacia")
-                pass
-            elif not DELETE_PATTERN["BEGIN_ALPHABETICAL"].match(linea):
-                logger.debug(f"Omitida linea {line_number} Rason: no es un dominio")
-                pass
-            else:
-                lista += linea
-    except:
-        logger.error(f"Omitiendo archivo {file_name} Rason: no encontrado")
+        logger.info("Abriendo archivo %s", file_name)
+        with open(file_name, "r", encoding="utf-8") as file_open:
+            logger.info("Leyendo archivo %s", file_name)
+            for linea in file_open.readlines():
+                line_number += 1
+                if linea == '\n':
+                    logger.debug("Omitida linea %s Rason: Linea vacia", line_number)
+                elif not DELETE_PATTERN["BEGIN_ALPHABETICAL"].match(linea):
+                    logger.debug("Omitida linea %s Rason: no es un dominio", line_number)
+                else:
+                    lista += linea
+    except FileNotFoundError:
+        logger.error("Omitiendo archivo %s Rason: no encontrado", file_name)
         return lista
-    else:
-        logger.info(f"Archivo {file_name} leido con exito")
-        return lista
+
+    logger.info("Archivo %s leido con exito", file_name)
+    return lista
 
 
 # Funcion para que se inicie la lectura de todos los archivos con listas negras
-def readFiles():
+def read_files():
+    '''
+    Funcion para que se inicie la lectura de todos los archivos con listas negras
+    '''
     listas = ""
     for i in range(NUMBER_OF_FILES):
-        listas += readDomains(f"{i+1}.txt")
+        listas += read_domains(f"{i+1}.txt")
     return listas.split('\n')
-    
+
+
 # Funcion principal (el programa)
 def main():
+    '''
+    Funcion principal
+    '''
     logging.info("Iniciando el scritp")
-    listfile = readFiles()
+    listfile = read_files()
     blacklist = ""
     cache = []
 
@@ -83,13 +94,13 @@ def main():
 
         if has_ip:
             new_line = f"{PRE_STRING}{has_ip[1]}{POST_STRING}\n"
-            logger.debug(f"Cambio {line} > {has_ip[1]}")
+            logger.debug("Cambio %s > %c", line, has_ip[1])
         elif has_www:
             new_line = f"{PRE_STRING}{has_www[0]}{POST_STRING}\n"
-            logger.debug(f"Cambio {line} > {has_www[0]}")
+            logger.debug("Cambio %s > %c", line, has_www[1])
         elif has_http:
             new_line = f"{PRE_STRING}{has_http[1]}{POST_STRING}\n"
-            logger.debug(f"Cambio {line} > {has_http[1]}")
+            logger.debug("Cambio %s > %c", line, has_http[1])
         elif line == '':
             pass
         else:
@@ -98,13 +109,13 @@ def main():
         # verifica que la linea no este repetida
         if new_line not in cache:
             blacklist += new_line
-            logger.debug(f"Dominio agregado: {new_line}")
+            logger.debug("Dominio agregado: %s", new_line)
             cache.append(new_line)
-    
-    with open(FILE_NAME, "w") as file:
-        logger.info(f"Escribiendo en archivo {FILE_NAME}")
+
+    with open(FILE_NAME, "w", encoding="utf-8") as file:
+        logger.info("Escribiendo en archivo %s", FILE_NAME)
         file.writelines(blacklist[:-1])
-        logger.info(f"Escritura finalizada")
-        
+        logger.info("Escritura finalizada")
+
 if __name__ == '__main__':
     main()
