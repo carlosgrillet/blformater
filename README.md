@@ -2,7 +2,7 @@
 
 [![GitHub Super-Linter](https://github.com/carlosgrillet/blformater/actions/workflows/linter.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
-blformater es una herramienta para convertir listas de dominios, en listas de acceso para un router mikrotik, entre sus caracteristicas principales tenemos que nos permite:
+blformater es una herramienta para convertir listas de dominios, en listas de acceso para un router mikrotik. blformater permite:
  
 - `Omitir lineas vacias`
 - `Omitir lineas que sean comentarios`
